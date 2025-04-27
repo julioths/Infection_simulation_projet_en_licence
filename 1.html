@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulations épidémiques interactives</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    header,
+    footer {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .player {
+      max-width: 800px;
+      margin: 1rem auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 4px;
+      background: black;
+    }
+
+    .controls {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    .controls button,
+    .controls select {
+      margin: 0 .5rem;
+      padding: .5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Simulations Agent-based vs Modèle Déterministe</h1>
+    <p>Sélectionnez une animation, puis utilisez les boutons Lecture/Pause et Recommencer.</p>
+  </header>
+
+  <div class="player">
+    <video id="videoPlayer">
+      <source id="videoSource" src="manim_sir.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la balise vidéo.
+    </video>
+
+    <div class="controls">
+      <button id="playPause">⏯ Lecture/Pause</button>
+      <button id="restart">🔄 Recommencer</button>
+
+      <label for="selection">Animation :</label>
+      <select id="selection">
+        <option value="manim_sir.mp4">SIR classique</option>
+        <option value="manim_seir.mp4">SEIR classique</option>
+        <option value="manim_confinement.mp4">SIR confinement</option>
+        <option value="manim_groupes.mp4">Groupes SEIR</option>
+      </select>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Votre Nom – Présentation interactive</p>
+  </footer>
+
+  <script>
+    const video = document.getElementById('videoPlayer');
+    const sourceElem = document.getElementById('videoSource');
+    const playPause = document.getElementById('playPause');
+    const restart = document.getElementById('restart');
+    const selection = document.getElementById('selection');
+
+    // Lecture / Pause
+    playPause.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+        playPause.textContent = '⏸ Pause';
+      } else {
+        video.pause();
+        playPause.textContent = '▶ Lecture';
+      }
+    });
+
+    // Recommencer
+    restart.addEventListener('click', () => {
+      video.currentTime = 0;
+      video.play();
+      playPause.textContent = '⏸ Pause';
+    });
+
+    // Changer d’animation
+    selection.addEventListener('change', () => {
+      const file = selection.value;
+      sourceElem.src = file;   // met à jour la source
+      video.load();            // recharge la vidéo
+      video.play();            // lance la lecture
+      playPause.textContent = '⏸ Pause';
+    });
+  </script>
+
+</body>
+
+</html>
